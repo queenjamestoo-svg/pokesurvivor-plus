@@ -776,7 +776,7 @@ a.btn { text-decoration: none; display: inline-block; color: var(--ink); }
 .news-day h3 small { display: block; color: var(--muted); font-size: 13px; font-weight: 400; margin-top: 2px; }
 .news-part { margin: 6px 0 8px; }
 .news-tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 4px; color: #0b1020; text-shadow: none; }
-.news-tag.new { background: #5fe08a; } .news-tag.chg { background: #4fb4ff; } .news-tag.fix { background: #ffb347; }
+.news-tag.top { background: #ffd23f; } .news-tag.new { background: #5fe08a; } .news-tag.chg { background: #4fb4ff; } .news-tag.fix { background: #ffb347; }
 .news-day ul { margin: 0; padding-left: 20px; }
 .news-day li { margin: 4px 0; line-height: 1.35; font-size: 15px; }
 @media (max-width: 760px) { .news-btn span { display: none; } }
@@ -999,3 +999,21 @@ div.tm-row { cursor: default; }
 #resume-pop .pause-grid .btn { width: 100%; }
 .tm-row.tm-locked { opacity: .62; border-style: dashed; }
 .tm-row.tm-locked:hover { opacity: .9; }
+
+/* Perso (19-10): ventanas de elección (vínculo, objeto) más pequeñas y centradas, sin quedar bajo el panel de estadísticas. */
+#scr-bond .box, #scr-item .box { width: min(520px, 100%); padding: 14px 16px; }
+#scr-bond .box h2, #scr-item .box h2 { margin: 0 0 4px; }
+#bond-cards, #item-cards { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+#bond-cards .card, #item-cards .card { width: 100%; padding: 8px 10px; }
+#bond-cards .card .ds, #item-cards .card .ds { font-size: 13px; }
+@media (max-width: 1180px) { #scr-bond, #scr-item { padding-right: 270px; } }
+@media (max-width: 700px) { #scr-bond, #scr-item { padding-right: 10px; } }
+@media (max-height: 520px) {
+  #scr-bond .box, #scr-item .box { width: min(560px, 100%); padding: 8px 10px; max-height: calc(100vh - 12px); overflow-y: auto; }
+  #scr-bond .box .sub, #scr-item .box .sub { margin: 0 0 4px; font-size: 12px; }
+  #bond-cards, #item-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+  #bond-cards .card .ico, #item-cards .card .ico { width: 36px; height: 36px; flex: 0 0 36px; }
+  #bond-cards .card .key, #item-cards .card .key { display: none; }
+  #bond-cards .card, #item-cards .card { padding: 5px 8px; }
+  #bond-cards .card .ds, #item-cards .card .ds { font-size: 11px; }
+}
