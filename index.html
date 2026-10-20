@@ -19,7 +19,7 @@
 <meta name="apple-mobile-web-app-title" content="PokéSurvivor">
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
 <link rel="preload" href="assets/fonts/Fredoka.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=f16782cb52">
+<link rel="stylesheet" href="css/style.css?v=5aa6a690f6">
 <style>/* perso: cuadro central del menú (tu Pokémon + niveles); aquí porque style.css se queda en caché */
 .play-panel { display: flex; gap: 18px; align-items: stretch; margin: 10px auto 0; padding: 14px 16px; max-width: 640px;
   background: linear-gradient(180deg, rgba(18,26,44,.92), rgba(8,12,24,.95)); border: 2px solid #a8894a; border-radius: 14px;
@@ -75,6 +75,8 @@
 .lvl-card.zz.on { border-color: #ffd23f; box-shadow: 0 0 14px rgba(255,210,63,.35), inset 0 0 18px rgba(63,224,192,.15); }
 .lvl-card.zz .ln { color: #fff; font-size: 30px; text-shadow: 0 0 6px #c9a6ff, 0 0 14px #7b5cff, 0 0 24px #7b5cff; }
 .lvl-card.zz .zz-tag { display: block; font-size: 11px; color: #c9c2ff; margin-top: 3px; letter-spacing: .03em; }
+.contact-btn svg { vertical-align: -3px; }
+@media (max-width: 900px) { .contact-btn span { display: none; } }
 .lvl-card .lk { margin-left: auto; font-size: 12px; font-weight: 800; color: #ff9a8a; white-space: nowrap; }
 @media (max-width: 760px) and (min-height: 521px) {
   .play-panel { flex-direction: column; padding: 10px; gap: 10px; max-width: 420px; }
@@ -149,7 +151,7 @@
 <section id="scr-login" class="scr hidden">
   <div class="box" style="width:min(420px,100%)">
     <div class="logo">
-      <img class="logo-img" src="assets/ui/logo-intox3.webp" alt="PokéSurvivor Intox2B Enhanced Version" draggable="false" translate="no">
+      <img class="logo-img" src="assets/ui/logo-intox4.webp" alt="PokéSurvivor Enhanced Version" draggable="false" translate="no">
     </div>
     <p class="login-tag">Sobrevive a las hordas con tu compañero Pokémon · gratis, en PC y móvil</p>
     <div class="tabs">
@@ -221,32 +223,36 @@
 </section>
 
 <!-- ====== Menú principal ====== -->
-<section id="scr-menu" class="scr hidden">
+<section id="scr-menu" class="scr hidden v2">
+  <!-- Perso (19-10): pantalla principal v2: logo · cuadro de juego (banner del nivel + pestañas + Jugar) · menú a la derecha · estadísticas y salón abajo -->
   <div class="menu-left">
     <div class="logo">
-      <img class="logo-img" src="assets/ui/logo-intox3.webp" alt="PokéSurvivor Intox2B Enhanced Version" draggable="false" translate="no">
+      <img class="logo-img" src="assets/ui/logo-intox4.webp" alt="PokéSurvivor Enhanced Version" draggable="false" translate="no">
     </div>
-    <!-- perso: cuadro central: tu Pokémon (clic: sus mejoras) y la elección del nivel -->
     <div class="play-panel">
-      <div class="partner-card">
-        <canvas id="menu-partner" class="stage" width="260" height="200" title="Pokémon"></canvas>
-        <div class="nm" id="menu-partner-name"></div>
-        <div class="lv" id="menu-partner-info"></div>
-        <div class="seg hidden" id="menu-shiny"><button data-v="0">Normal</button><button data-v="1"></button></div>
-        <button class="pp-upg" id="menu-partner-upg"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1 L13 8 H9 V13 H5 V8 H1 Z" fill="#ffd23f" stroke="#7a5a00" stroke-width="1"/></svg> Mejoras</button>
+      <div class="pp-banner" id="pp-banner">
+        <div class="pp-info" id="pp-info"></div>
+        <div class="partner-card">
+          <canvas id="menu-partner" class="stage" width="260" height="200" title="Pokémon"></canvas>
+          <div class="nm" id="menu-partner-name"></div>
+          <div class="lv" id="menu-partner-info"></div>
+          <div class="seg hidden" id="menu-shiny"><button data-v="0">Normal</button><button data-v="1"></button></div>
+          <button class="pp-upg" id="menu-partner-upg"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1 L13 8 H9 V13 H5 V8 H1 Z" fill="#ffd23f" stroke="#7a5a00" stroke-width="1"/></svg> Mejoras</button>
+        </div>
       </div>
-      <div class="pp-levels">
-        <div class="pp-title">Elige el nivel</div>
-        <div id="menu-maps"></div>
-        <button class="btn gold pp-play" data-go="play">Jugar<small>Entra en la mazmorra</small></button>
-      </div>
+      <div id="menu-maps" class="pp-tabs"></div>
+      <button class="btn gold pp-play" data-go="play">Jugar<small>Entra en la mazmorra</small></button>
     </div>
-    <!-- perso: el salón multijugador, en su propio cuadro bajo el principal (sólo con sala) -->
-    <div class="room-panel hidden" id="menu-room"></div>
+    <div class="menu-bottom">
+      <!-- perso: el salón multijugador (sólo con sala) -->
+      <div class="room-panel hidden" id="menu-room"></div>
+        <div class="room-chat hidden" id="room-chat"></div>
+    </div>
   </div>
   <div class="menu-right">
-    <div class="box">
+    <div class="box menu-box">
       <div class="menu-list">
+        <button class="menu-item" data-go="rank">Ranking<small>Arceus, Zona Cero, nivel y DPS</small></button>
         <button class="menu-item" data-go="dex">Pokémon<small id="menu-dex-count">Tu colección</small></button>
         <button class="menu-item" data-go="gacha">Gacha<small>9 regiones · Pokémon y shinies</small></button>
         <button class="menu-item" data-go="goals">Misiones<small id="menu-goals-sub">Diarias y semanales</small></button>
@@ -255,14 +261,10 @@
         <button class="menu-item" data-go="lexicon">Léxico<small>Movimientos Z y objetos</small></button>
         <button class="menu-item" data-go="train">Entrenamiento<small>Maniquíes y opciones de prueba</small></button>
         <button class="menu-item" data-go="settings">Ajustes<small>Sonido, gráficos, controles y cuenta</small></button>
-        <button class="menu-item" data-go="rank">Ranking<small>Arceus, nivel y DPS</small></button>
       </div>
     </div>
-    <!-- perso (18-10): en el móvil el logo va aquí, bajo el menú (arriba a la izquierda no cabe) -->
-    <div class="logo logo-phone"><img class="logo-img" src="assets/ui/logo-intox3.webp" alt="PokéSurvivor Intox2B Enhanced Version" draggable="false" translate="no"></div>
-    <div class="box" style="padding:14px 18px">
-      <div id="menu-stats" style="font-size:14px;color:var(--muted)"></div>
-    </div>
+    <!-- perso (18-10): en el móvil el logo va aquí, bajo el menú -->
+    <div class="logo logo-phone"><img class="logo-img" src="assets/ui/logo-intox4.webp" alt="PokéSurvivor Enhanced Version" draggable="false" translate="no"></div>
   </div>
 </section>
 
@@ -271,6 +273,7 @@
   <div class="pill" id="tickets-pill" title="Tickets del gacha"></div>
   <div class="pill" id="user-pill"></div>
   <button id="btn-news" class="btn small ghost news-btn" title="Novedades"></button>
+  <button id="btn-contact" class="btn small ghost contact-btn" title="Contacto"></button>
   <button id="btn-support" class="btn small gold hidden" title="Apoyar el PokéSurvivor original (JPTER78)"></button>
   <button id="btn-sound" class="btn small ghost" title="Sonido"></button>
   <button id="btn-full" class="btn small ghost hidden" title="Pantalla completa"></button>
@@ -664,7 +667,7 @@
 
 <!-- datos generados -->
 <script src="config.js"></script>
-<script defer src="js/app.min.js?v=cf7733cb4c"></script>
+<script defer src="js/app.min.js?v=eb8d5fd9dc"></script>
 <script>(function () { var l = document.getElementById('priv-local'); if (!l) return;
   if (window.PS_FIREBASE && window.PS_FIREBASE.apiKey) { l.remove(); return; }
   for (var n = l.nextElementSibling; n; n = n.nextElementSibling) n.style.display = 'none'; })();</script>
